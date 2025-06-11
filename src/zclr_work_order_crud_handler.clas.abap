@@ -58,6 +58,7 @@ CLASS zclr_work_order_crud_handler IMPLEMENTATION.
         description     = iv_description ).
 
       INSERT zrt_work_order FROM @ls_work_order.
+      COMMIT WORK.
 
     ENDIF.
   ENDMETHOD.
@@ -80,6 +81,7 @@ CLASS zclr_work_order_crud_handler IMPLEMENTATION.
 
       UPDATE zrt_work_order SET status = @iv_status
         WHERE work_order_id = @iv_work_order_id.
+      COMMIT WORK.
 
     ENDIF.
 
@@ -94,6 +96,7 @@ CLASS zclr_work_order_crud_handler IMPLEMENTATION.
 
       DELETE FROM zrt_work_order
         WHERE work_order_id = @iv_work_order_id.
+      COMMIT WORK.
 
     ENDIF.
 
