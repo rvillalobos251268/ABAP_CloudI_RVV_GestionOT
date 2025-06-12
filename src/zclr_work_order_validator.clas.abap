@@ -1,4 +1,5 @@
 CLASS zclr_work_order_validator DEFINITION
+
 " Clase de validación creada por Ronald Villalobos
 
   PUBLIC
@@ -8,6 +9,7 @@ CLASS zclr_work_order_validator DEFINITION
     " Definición de Metodos
 
     METHODS:
+      " Validación de orden de trabajo
       validate_create_order IMPORTING
                                       iv_customer_id   TYPE zrve_customer_id
                                       iv_technician_id TYPE zrve_technician_id
@@ -15,25 +17,26 @@ CLASS zclr_work_order_validator DEFINITION
                             EXPORTING ev_error         TYPE string
                             RETURNING VALUE(rv_valid)  TYPE abap_bool,
 
+      " Validación de actualización de datos
       validate_update_order IMPORTING
                                       iv_work_order_id TYPE zrve_work_order_id
                                       iv_status        TYPE zrve_status_code
                             EXPORTING ev_error         TYPE string
                             RETURNING VALUE(rv_valid)  TYPE abap_bool,
 
+      " Validación de borrado de datos
       validate_delete_order IMPORTING
                                       iv_work_order_id TYPE zrve_work_order_id
                                       iv_status        TYPE zrve_status_code
                             EXPORTING ev_error         TYPE string
                             RETURNING VALUE(rv_valid)  TYPE abap_bool,
 
+      " Validación de prioridad de la orden de trabajo
       validate_status_and_priority IMPORTING
                                              iv_status       TYPE zrve_status_code
                                              iv_priority     TYPE zrve_priority_code
                                    EXPORTING ev_error        TYPE string
                                    RETURNING VALUE(rv_valid) TYPE abap_bool.
-
-
 
   PRIVATE SECTION.
     " Definición de Constantes
@@ -43,15 +46,19 @@ CLASS zclr_work_order_validator DEFINITION
 
     " Definición de Metodos
     METHODS:
+      " Hace chequeo que el cliente exista
       check_customer_exists IMPORTING iv_customer_id   TYPE zrve_customer_id
                             RETURNING VALUE(rv_exists) TYPE abap_bool,
 
+      " Hace chequeo que el tecnico exista
       check_technician_exists IMPORTING iv_technician_id TYPE zrve_technician_id
                               RETURNING VALUE(rv_exists) TYPE abap_bool,
 
+      " Hace chequeo que la orden de trabajo existe
       check_order_exists IMPORTING iv_work_order_id TYPE zrve_work_order_id
                          RETURNING VALUE(rv_exists) TYPE abap_bool,
 
+      " Hace chequeo que la orden de trabajo existe en el histórico
       check_order_history IMPORTING iv_work_order_id TYPE zrve_work_order_id
                           RETURNING VALUE(rv_exists) TYPE abap_bool.
 
@@ -63,7 +70,6 @@ CLASS zclr_work_order_validator IMPLEMENTATION.
 
 
   METHOD validate_create_order.
-
 
     TYPES: tt_priority TYPE TABLE OF zrve_priority_code WITH EMPTY KEY.
 
@@ -98,6 +104,7 @@ CLASS zclr_work_order_validator IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD validate_status_and_priority.
 
     TYPES: tt_status   TYPE TABLE OF zrve_status_code WITH EMPTY KEY,
@@ -126,6 +133,7 @@ CLASS zclr_work_order_validator IMPLEMENTATION.
     ENDIF.
 
   ENDMETHOD.
+
 
   METHOD validate_update_order.
 
@@ -170,6 +178,7 @@ CLASS zclr_work_order_validator IMPLEMENTATION.
     ENDIF.
 
   ENDMETHOD.
+
 
   METHOD check_customer_exists.
 
